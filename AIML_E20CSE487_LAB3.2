@@ -1,0 +1,552 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "execution_count": 26,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 236
+        },
+        "id": "MzVV53kGwDF-",
+        "outputId": "c754b279-922f-419c-ec60-e860baf6b5f7"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "  school sex  age address famsize Pstatus  Medu  Fedu     Mjob      Fjob  ...  \\\n",
+              "0     GP   F   18       U     GT3       A     4     4  at_home   teacher  ...   \n",
+              "1     GP   F   17       U     GT3       T     1     1  at_home     other  ...   \n",
+              "2     GP   F   15       U     LE3       T     1     1  at_home     other  ...   \n",
+              "3     GP   F   15       U     GT3       T     4     2   health  services  ...   \n",
+              "4     GP   F   16       U     GT3       T     3     3    other     other  ...   \n",
+              "\n",
+              "  famrel freetime  goout  Dalc  Walc health absences  G1  G2  G3  \n",
+              "0      4        3      4     1     1      3        6   5   6   6  \n",
+              "1      5        3      3     1     1      3        4   5   5   6  \n",
+              "2      4        3      2     2     3      3       10   7   8  10  \n",
+              "3      3        2      2     1     1      5        2  15  14  15  \n",
+              "4      4        3      2     1     2      5        4   6  10  10  \n",
+              "\n",
+              "[5 rows x 33 columns]"
+            ],
+            "text/html": [
+              "\n",
+              "  <div id=\"df-67a126eb-6b19-4b17-b9d2-827b8cab6df7\">\n",
+              "    <div class=\"colab-df-container\">\n",
+              "      <div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>school</th>\n",
+              "      <th>sex</th>\n",
+              "      <th>age</th>\n",
+              "      <th>address</th>\n",
+              "      <th>famsize</th>\n",
+              "      <th>Pstatus</th>\n",
+              "      <th>Medu</th>\n",
+              "      <th>Fedu</th>\n",
+              "      <th>Mjob</th>\n",
+              "      <th>Fjob</th>\n",
+              "      <th>...</th>\n",
+              "      <th>famrel</th>\n",
+              "      <th>freetime</th>\n",
+              "      <th>goout</th>\n",
+              "      <th>Dalc</th>\n",
+              "      <th>Walc</th>\n",
+              "      <th>health</th>\n",
+              "      <th>absences</th>\n",
+              "      <th>G1</th>\n",
+              "      <th>G2</th>\n",
+              "      <th>G3</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>GP</td>\n",
+              "      <td>F</td>\n",
+              "      <td>18</td>\n",
+              "      <td>U</td>\n",
+              "      <td>GT3</td>\n",
+              "      <td>A</td>\n",
+              "      <td>4</td>\n",
+              "      <td>4</td>\n",
+              "      <td>at_home</td>\n",
+              "      <td>teacher</td>\n",
+              "      <td>...</td>\n",
+              "      <td>4</td>\n",
+              "      <td>3</td>\n",
+              "      <td>4</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>3</td>\n",
+              "      <td>6</td>\n",
+              "      <td>5</td>\n",
+              "      <td>6</td>\n",
+              "      <td>6</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>GP</td>\n",
+              "      <td>F</td>\n",
+              "      <td>17</td>\n",
+              "      <td>U</td>\n",
+              "      <td>GT3</td>\n",
+              "      <td>T</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>at_home</td>\n",
+              "      <td>other</td>\n",
+              "      <td>...</td>\n",
+              "      <td>5</td>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>3</td>\n",
+              "      <td>4</td>\n",
+              "      <td>5</td>\n",
+              "      <td>5</td>\n",
+              "      <td>6</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>GP</td>\n",
+              "      <td>F</td>\n",
+              "      <td>15</td>\n",
+              "      <td>U</td>\n",
+              "      <td>LE3</td>\n",
+              "      <td>T</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>at_home</td>\n",
+              "      <td>other</td>\n",
+              "      <td>...</td>\n",
+              "      <td>4</td>\n",
+              "      <td>3</td>\n",
+              "      <td>2</td>\n",
+              "      <td>2</td>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>10</td>\n",
+              "      <td>7</td>\n",
+              "      <td>8</td>\n",
+              "      <td>10</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>GP</td>\n",
+              "      <td>F</td>\n",
+              "      <td>15</td>\n",
+              "      <td>U</td>\n",
+              "      <td>GT3</td>\n",
+              "      <td>T</td>\n",
+              "      <td>4</td>\n",
+              "      <td>2</td>\n",
+              "      <td>health</td>\n",
+              "      <td>services</td>\n",
+              "      <td>...</td>\n",
+              "      <td>3</td>\n",
+              "      <td>2</td>\n",
+              "      <td>2</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>5</td>\n",
+              "      <td>2</td>\n",
+              "      <td>15</td>\n",
+              "      <td>14</td>\n",
+              "      <td>15</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>GP</td>\n",
+              "      <td>F</td>\n",
+              "      <td>16</td>\n",
+              "      <td>U</td>\n",
+              "      <td>GT3</td>\n",
+              "      <td>T</td>\n",
+              "      <td>3</td>\n",
+              "      <td>3</td>\n",
+              "      <td>other</td>\n",
+              "      <td>other</td>\n",
+              "      <td>...</td>\n",
+              "      <td>4</td>\n",
+              "      <td>3</td>\n",
+              "      <td>2</td>\n",
+              "      <td>1</td>\n",
+              "      <td>2</td>\n",
+              "      <td>5</td>\n",
+              "      <td>4</td>\n",
+              "      <td>6</td>\n",
+              "      <td>10</td>\n",
+              "      <td>10</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "<p>5 rows × 33 columns</p>\n",
+              "</div>\n",
+              "      <button class=\"colab-df-convert\" onclick=\"convertToInteractive('df-67a126eb-6b19-4b17-b9d2-827b8cab6df7')\"\n",
+              "              title=\"Convert this dataframe to an interactive table.\"\n",
+              "              style=\"display:none;\">\n",
+              "        \n",
+              "  <svg xmlns=\"http://www.w3.org/2000/svg\" height=\"24px\"viewBox=\"0 0 24 24\"\n",
+              "       width=\"24px\">\n",
+              "    <path d=\"M0 0h24v24H0V0z\" fill=\"none\"/>\n",
+              "    <path d=\"M18.56 5.44l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94zm-11 1L8.5 8.5l.94-2.06 2.06-.94-2.06-.94L8.5 2.5l-.94 2.06-2.06.94zm10 10l.94 2.06.94-2.06 2.06-.94-2.06-.94-.94-2.06-.94 2.06-2.06.94z\"/><path d=\"M17.41 7.96l-1.37-1.37c-.4-.4-.92-.59-1.43-.59-.52 0-1.04.2-1.43.59L10.3 9.45l-7.72 7.72c-.78.78-.78 2.05 0 2.83L4 21.41c.39.39.9.59 1.41.59.51 0 1.02-.2 1.41-.59l7.78-7.78 2.81-2.81c.8-.78.8-2.07 0-2.86zM5.41 20L4 18.59l7.72-7.72 1.47 1.35L5.41 20z\"/>\n",
+              "  </svg>\n",
+              "      </button>\n",
+              "      \n",
+              "  <style>\n",
+              "    .colab-df-container {\n",
+              "      display:flex;\n",
+              "      flex-wrap:wrap;\n",
+              "      gap: 12px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert {\n",
+              "      background-color: #E8F0FE;\n",
+              "      border: none;\n",
+              "      border-radius: 50%;\n",
+              "      cursor: pointer;\n",
+              "      display: none;\n",
+              "      fill: #1967D2;\n",
+              "      height: 32px;\n",
+              "      padding: 0 0 0 0;\n",
+              "      width: 32px;\n",
+              "    }\n",
+              "\n",
+              "    .colab-df-convert:hover {\n",
+              "      background-color: #E2EBFA;\n",
+              "      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);\n",
+              "      fill: #174EA6;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert {\n",
+              "      background-color: #3B4455;\n",
+              "      fill: #D2E3FC;\n",
+              "    }\n",
+              "\n",
+              "    [theme=dark] .colab-df-convert:hover {\n",
+              "      background-color: #434B5C;\n",
+              "      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);\n",
+              "      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));\n",
+              "      fill: #FFFFFF;\n",
+              "    }\n",
+              "  </style>\n",
+              "\n",
+              "      <script>\n",
+              "        const buttonEl =\n",
+              "          document.querySelector('#df-67a126eb-6b19-4b17-b9d2-827b8cab6df7 button.colab-df-convert');\n",
+              "        buttonEl.style.display =\n",
+              "          google.colab.kernel.accessAllowed ? 'block' : 'none';\n",
+              "\n",
+              "        async function convertToInteractive(key) {\n",
+              "          const element = document.querySelector('#df-67a126eb-6b19-4b17-b9d2-827b8cab6df7');\n",
+              "          const dataTable =\n",
+              "            await google.colab.kernel.invokeFunction('convertToInteractive',\n",
+              "                                                     [key], {});\n",
+              "          if (!dataTable) return;\n",
+              "\n",
+              "          const docLinkHtml = 'Like what you see? Visit the ' +\n",
+              "            '<a target=\"_blank\" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'\n",
+              "            + ' to learn more about interactive tables.';\n",
+              "          element.innerHTML = '';\n",
+              "          dataTable['output_type'] = 'display_data';\n",
+              "          await google.colab.output.renderOutput(dataTable, element);\n",
+              "          const docLink = document.createElement('div');\n",
+              "          docLink.innerHTML = docLinkHtml;\n",
+              "          element.appendChild(docLink);\n",
+              "        }\n",
+              "      </script>\n",
+              "    </div>\n",
+              "  </div>\n",
+              "  "
+            ]
+          },
+          "metadata": {},
+          "execution_count": 26
+        }
+      ],
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "\n",
+        "df = pd.read_csv('/content/student-mat.csv', sep=';')\n",
+        "df.head()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "df.info()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "nEXjqa77wmSk",
+        "outputId": "1ba890e4-0d9d-4254-f582-3e485a5e4238"
+      },
+      "execution_count": 16,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "<class 'pandas.core.frame.DataFrame'>\n",
+            "RangeIndex: 395 entries, 0 to 394\n",
+            "Data columns (total 33 columns):\n",
+            " #   Column      Non-Null Count  Dtype \n",
+            "---  ------      --------------  ----- \n",
+            " 0   school      395 non-null    object\n",
+            " 1   sex         395 non-null    object\n",
+            " 2   age         395 non-null    int64 \n",
+            " 3   address     395 non-null    object\n",
+            " 4   famsize     395 non-null    object\n",
+            " 5   Pstatus     395 non-null    object\n",
+            " 6   Medu        395 non-null    int64 \n",
+            " 7   Fedu        395 non-null    int64 \n",
+            " 8   Mjob        395 non-null    object\n",
+            " 9   Fjob        395 non-null    object\n",
+            " 10  reason      395 non-null    object\n",
+            " 11  guardian    395 non-null    object\n",
+            " 12  traveltime  395 non-null    int64 \n",
+            " 13  studytime   395 non-null    int64 \n",
+            " 14  failures    395 non-null    int64 \n",
+            " 15  schoolsup   395 non-null    object\n",
+            " 16  famsup      395 non-null    object\n",
+            " 17  paid        395 non-null    object\n",
+            " 18  activities  395 non-null    object\n",
+            " 19  nursery     395 non-null    object\n",
+            " 20  higher      395 non-null    object\n",
+            " 21  internet    395 non-null    object\n",
+            " 22  romantic    395 non-null    object\n",
+            " 23  famrel      395 non-null    int64 \n",
+            " 24  freetime    395 non-null    int64 \n",
+            " 25  goout       395 non-null    int64 \n",
+            " 26  Dalc        395 non-null    int64 \n",
+            " 27  Walc        395 non-null    int64 \n",
+            " 28  health      395 non-null    int64 \n",
+            " 29  absences    395 non-null    int64 \n",
+            " 30  G1          395 non-null    int64 \n",
+            " 31  G2          395 non-null    int64 \n",
+            " 32  G3          395 non-null    int64 \n",
+            "dtypes: int64(16), object(17)\n",
+            "memory usage: 102.0+ KB\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# tranform catagories to numerically computable data\n",
+        "\n",
+        "# from sklearn.preprocessing import LabelEncoder\n",
+        "# le = LabelEncoder()\n",
+        "# X[:, 0:2]=le.fit_transform(X)"
+      ],
+      "metadata": {
+        "id": "vDRK_7K_w_RH"
+      },
+      "execution_count": 13,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# from sklearn.preprocessing import OneHotEncoder\n",
+        "# from sklearn.compose import ColumnTransformer\n",
+        "# ohe = OneHotEncoder()\n",
+        "\n",
+        "# ct = ColumnTransformer([('Country', ohe, [0])], remainder='passthrough') \n",
+        "# passthrough means pass the other columns of X\n",
+        "# x = ct.fit_transform(X)\n",
+        "\n",
+        "# separate columns created for france, germany and spain containing 0 and 1"
+      ],
+      "metadata": {
+        "id": "iJ24cmcezISz"
+      },
+      "execution_count": 15,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Simplest Way\n",
+        "\n",
+        "# new_data = pd.get_dummies(data)\n",
+        "# new_data"
+      ],
+      "metadata": {
+        "id": "-RnNfwVr0W8n"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X_list = ['age', 'address', 'famsize', 'reason', 'studytime', 'failures', 'schoolsup', 'famsup', 'paid', 'activities',\n",
+        "     'higher', 'internet', 'romantic', 'freetime', 'goout', 'health', 'absences', 'G1', 'G2']"
+      ],
+      "metadata": {
+        "id": "OjrW_K2X2-qH"
+      },
+      "execution_count": 29,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X = df.iloc[:, 0:-1]\n",
+        "\n",
+        "y = df.iloc[:, 32:33]\n"
+      ],
+      "metadata": {
+        "id": "nvg6JyEr30AW"
+      },
+      "execution_count": 36,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "X = pd.get_dummies(X, drop_first= True)\n"
+      ],
+      "metadata": {
+        "id": "HltIW2EK4Lk2"
+      },
+      "execution_count": 37,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from sklearn.model_selection import train_test_split \n",
+        "from sklearn.linear_model import LinearRegression\n",
+        "from sklearn.metrics import r2_score \n",
+        "\n",
+        "from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score\n",
+        "\n",
+        "Y = df['G3']\n",
+        "X = df[['age','address','famsize','reason','studytime','failures','schoolsup','famsup','paid','activities','higher','internet','romantic','freetime','goout','health','absences','G1','G2']]\n",
+        "curr_col = [col for col in ['school', 'internet', 'paid', 'activities', 'higher', 'reason', 'romantic', 'schoolsup', 'guardian', 'sex', 'address', 'famsize', 'Mjob', 'Fjob', 'Pstatus', 'famsup', 'nursery'] if col in list(X.columns)]\n",
+        "X = pd.get_dummies(X,columns=curr_col,drop_first=True)\n",
+        "\n",
+        "\n",
+        "X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.3,random_state=42)"
+      ],
+      "metadata": {
+        "id": "MVfX5KcY5jzS"
+      },
+      "execution_count": 40,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "slr = LinearRegression()\n",
+        "slr.fit(X_train,Y_train)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "KnUJ1hOO6rVC",
+        "outputId": "ed791efa-c390-4d3d-abfc-f12e55439208"
+      },
+      "execution_count": 41,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "LinearRegression()"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 41
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "pred = slr.predict(X_test)"
+      ],
+      "metadata": {
+        "id": "JsXpFB7t8fAc"
+      },
+      "execution_count": 43,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "msev = mean_squared_error(Y_test,pred)\n",
+        "r2sv = r2_score(Y_test,pred)\n",
+        "print(\"Mean Square Error: {}\\nR2 Score: {}\".format(msev, r2sv))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "9qSq1hS38ihW",
+        "outputId": "f5cc4459-32b1-48d6-894e-fe7a811fdda9"
+      },
+      "execution_count": 45,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Mean Square Error: 4.795353050530762\n",
+            "R2 Score: 0.78185155049804\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "M0ZVd3rt9ED5"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
